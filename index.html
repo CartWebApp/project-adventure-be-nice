@@ -6,10 +6,22 @@
   <title>The Last Case</title>
 </head>
 <body>
-  <div id="game">
+  <div id="start-screen">
+    <video autoplay muted loop id="bg-video">
+      <source src="Vids/start-game.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div id="start-overlay">
+      <button id="start-button">Start Game</button>
+    </div>
+  </div>
+
+  <div id="game" style="display: none;">
     <div id="story"></div>
     <div id="choices"></div>
   </div>
+
   <script src="script.js"></script>
 </body>
+
 </html>

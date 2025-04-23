@@ -1,5 +1,15 @@
 const storyEl = document.getElementById('story');
 const choicesEl = document.getElementById('choices');
+const startScreenEl = document.getElementById('start-screen');
+const gameEl = document.getElementById('game');
+const startButton = document.getElementById('start-button');
+
+startButton.addEventListener('click', () => {
+  startScreenEl.style.display = 'none';
+  gameEl.style.display = 'block';
+  showScene('start');
+});
+
 
 const scenes = {
   start: {
