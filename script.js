@@ -24,13 +24,16 @@ function checkFullscreenStatus() {
 window.addEventListener('load', checkFullscreenStatus);
 document.addEventListener("fullscreenchange", checkFullscreenStatus);
 
+
 // Start game function (called when user clicks the clickable area)
 function startGame() {
+
   // Hide the loading screen and show the game content
   document.getElementById('loadingScreen').style.display = 'none';
   document.getElementById('game').style.display = 'block';
   showScene('start');
 }
+
 
 // Get references to game elements
 const storyEl = document.getElementById('story');
