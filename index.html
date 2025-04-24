@@ -1,15 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8">
   <title>The Last Case</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="game">
+
+  <!-- Fullscreen Overlay -->
+  <div id="fullscreenOverlay">
+    <p>Please enter fullscreen to play the game.</p>
+    <button onclick="enterFullscreen()">Go Fullscreen</button>
+  </div>
+
+  <!-- Loading Screen -->
+  <div id="loadingScreen" style="display:block;">
+    <video autoplay muted loop id="myVideo">
+      <source src="Vids/start-game.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+    <p class="flashing-text">Press Start Button</p>
+    <div class="clickable-area" onclick="startGame()"></div>
+  </div>
+
+  <!-- Game Content -->
+  <div id="game" style="display:none;">
     <div id="story"></div>
     <div id="choices"></div>
   </div>
+
+  <!-- Game Logic -->
   <script src="script.js"></script>
+
 </body>
 </html>
