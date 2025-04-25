@@ -86,6 +86,14 @@ const scenes = {
       { text: "Visit the evidence room.", next: "scene" },
       { text: "Snoop around the station.", next: "scene" }
     ]
+  },
+  keep: {
+    text: ".",
+    options: [
+      { text: "Go to the crime scene.", next: "crime" },
+      { text: "Visit the evidence room.", next: "scene" },
+      { text: "Snoop around the station.", next: "scene" }
+    ]
   }
 };
 
