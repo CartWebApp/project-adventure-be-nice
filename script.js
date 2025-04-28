@@ -101,9 +101,9 @@ const scenes = {
       { text: "Snoop around the station.", next: "snoop" }
     ]
   },
-  keep: {
+  evidence: {
     text: ".",
-    background: 'url(images/background7.jpg)',
+    background: 'url(images/evid-room.png)',
     options: [
       { text: "Go to the crime scene.", next: "crime" },
       { text: "Visit the evidence room.", next: "evidence" },
