@@ -5,6 +5,7 @@ body {
   overflow: hidden;
   font-family: sans-serif;
   color: white;
+  background-color: black;
   width: 100%;
   height: 100vh;
   background-repeat: no-repeat;
@@ -60,6 +61,25 @@ body {
   background-color: rgba(42, 42, 42,); /* set to 'rgba(255,0,0,0.3)' temporarily for debugging */
   cursor: pointer;
 }
+
+#loadingScreen {
+  transition: opacity 2.5s ease;
+}
+#loadingScreen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Fade-out transition */
+.fade-out {
+  opacity: 1;
+  transition: opacity 7.5s ease-out;
+}
+
+.fade-out.hidden {
+  opacity: 0;
+}
+
 
 /* Game Container */
 #game {
@@ -136,11 +156,70 @@ body {
   font-size: 1.5rem;
   cursor: pointer;
   border-radius: 10px;
-  transition: background-color 0.3s;
+  transition: background-color .25s;
 }
 
 #fullscreenOverlay button:hover {
   background-color: darkred;
+}
+
+#gameOverText {
+  display: none;
+  color: red;
+  font-size: 3rem;
+  position: absolute;
+  bottom: 5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  animation: flash 1s infinite;
+  position: absolute;
+  z-index: 9999;
+
+}
+
+#jumpscareOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+#jumpscareImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  z-index: 1;
+}
+
+#gameOverText {
+  display: none;
+  color: red;
+  font-size: 3rem;
+  margin-top: 20px;
+}
+
+#restartButton {
+  display: none;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  margin-top: 20px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 
