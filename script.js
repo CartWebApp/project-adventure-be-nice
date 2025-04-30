@@ -1,3 +1,6 @@
+// Flag to track if the intro video has been played
+let introVideoPlayed = false;
+
 // Enter fullscreen and play intro video
 function enterFullscreen() {
   const elem = document.documentElement;
@@ -15,17 +18,22 @@ function enterFullscreen() {
     alert("Your browser doesn't support fullscreen mode.");
   }
 
-  // Only play the video after fullscreen is granted
-  if (video) {
+  // Play the video only if it hasn't been played yet
+  if (video && !introVideoPlayed) {
     video.play().catch(err => {
       console.error("Error playing video:", err);
+      alert("There was an error playing the intro video.");
     });
-    video.volume = .50;
+    video.volume = 0.50;
+    introVideoPlayed = true;
   }
+  
 
+  // Hide the fullscreen overlay when entering fullscreen
   document.getElementById('fullscreenOverlay').style.display = 'none';
 }
 
+// Check fullscreen status
 function checkFullscreenStatus() {
   const isFullscreen = document.fullscreenElement;
   const overlay = document.getElementById('fullscreenOverlay');
@@ -46,6 +54,12 @@ document.addEventListener('fullscreenchange', () => {
       video.pause();
       video.currentTime = 0;
     }
+  }
+
+  // Show fullscreen prompt if exiting fullscreen
+  if (!isFullscreen) {
+    const fullscreenOverlay = document.getElementById('fullscreenOverlay');
+    fullscreenOverlay.style.display = 'flex';  // Show the fullscreen prompt when leaving fullscreen
   }
 });
 
@@ -79,10 +93,10 @@ const choicesEl = document.getElementById('choices');
 
 const scenes = {
   start: {
-    text: "You wake up in your bed, pitch dark and the bright moon peeking through the windows. You look at your clock which reads 3:00AM and can't seem to get some rest. What too you do?",
+    text: "You wake up in your bed, pitch dark and the bright moon peeking through the windows. You look at your clock which reads 3:00AM and can't seem to get some rest. What do you do?",
     background: 'url(images/dex-bedroom.png)', 
     options: [
-      { text: "Decide to go for a late night walk at the near park.", next: "walk" },
+      { text: "Decide to go for a late night walk at the nearby park.", next: "walk" },
       { text: "Head to the police department and take on a new personal project.", next: "personal" },
       { text: "Wait until the morning and seek some help for your mind, like therapy.", next: "therapy" }
     ]
@@ -140,7 +154,7 @@ const scenes = {
     ]
   },
   investigate: {
-    text: "You decided to go and investigate this abandonded building not know what is was, you see 3 entrances and can't decided what entrence to use to go in?",
+    text: "You decided to go and investigate this abandoned building not knowing what it was. You see 3 entrances and can't decide which one to use to go in.",
     background: 'url(images/abandoned-building.png)',
     options: [
       { text: "Go inside from the right.", next: "insideab" },
@@ -152,17 +166,16 @@ const scenes = {
     text: "As you enter the building, you find a pile of robotic parts scattered all around. What will you do?",
     background: 'url(images/inside-ab.png)',
     options: [
-      { text: "He decides not to further and explore and leaves the building feeling creep out.", next: "leavecoward" },
-      { text: "He gets curious and decides to explore the building.", next: "exploreab" },
-      { text: "He starts freaking out causing him to trip over robotic parts and land into the pile.", next: "watchyourstep" }
+      { text: "Decide not to go further and leave the building feeling creeped out.", next: "leavecoward" },
+      { text: "Get curious and decide to explore the building.", next: "exploreab" },
+      { text: "Start freaking out, causing you to trip over robotic parts and land into the pile.", next: "watchyourstep" }
     ]
   },
   watchyourstep: {
-    text: "He trips over robotic parts and land into the pile.",
-    background: 'url(images/inside-ab.png)',
+    text: "You trip over robotic parts and land into the pile.",
+    background: 'url(images/black.png)',
     options: [
-      { text: "Next", next: "robotmurder" },
-      
+      { text: "Next", next: "robotmurder" }
     ]
   },
   robotmurder: {
@@ -174,6 +187,7 @@ const scenes = {
     isJumpscare: true
   }  
 };
+
 
 function triggerJumpscare(backgroundImage) {
   const overlay = document.getElementById('jumpscareOverlay');
@@ -188,42 +202,46 @@ function triggerJumpscare(backgroundImage) {
   restartButton.style.display = 'none';
 
   // Set the image from the passed backgroundImage
- // Set the image from the passed backgroundImage
   const imagePath = backgroundImage.replace(/^url\((['"])?(.*?)\1\)$/, '$2');
-img.src = imagePath;
+  img.src = imagePath;
 
-
-  // ⬇️ This is where you put the onerror handler
   img.onerror = () => {
     console.error('Jumpscare image failed to load:', backgroundImage);
   };
 
-  const delay = 1000; 
+  const delay = 300; // Delay before showing the jumpscare image and playing sound
 
   setTimeout(() => {
     img.style.display = 'block';
 
-    const screamSound = new Audio('sounds/scream.mp3');
-  screamSound.onerror = () => {
-  const fallbackSound = new Audio('sounds/fallback-scream.mp3');
-  fallbackSound.play();
-  };
-  screamSound.play().catch(err => console.warn('Sound play error:', err));
+    // Create the audio object and set the volume
+    const screamSound = new Audio('sound/jumpscare.mp3');
+    screamSound.volume = 0.1;  // Set volume to 50% (you can adjust this value)
 
+    // Play the audio, ensuring it's loaded and playing correctly
+    screamSound.play().catch(err => {
+      console.warn('Sound play error:', err);
+      // Optional: Provide a fallback sound if primary one fails
+      const fallbackSound = new Audio('sound/jumpscare.mp3');
+      fallbackSound.volume = .5;  // Same volume for the fallback
+      fallbackSound.play();
+    });
 
+    // Show game over text and restart button after a brief delay
     setTimeout(() => {
       gameOverText.style.display = 'block';
       restartButton.style.display = 'inline-block';
     }, 500);
   }, delay);
 
+  // When restarting, ensure that fullscreen prompt is visible if not in fullscreen
   restartButton.onclick = () => {
     window.location.reload();
   };
 }
 
 
-// Function to show a scene
+// Show scene
 function showScene(key) {
   const scene = scenes[key];
 
@@ -252,4 +270,3 @@ function showScene(key) {
 
   document.body.style.backgroundImage = scene.background || 'url(images/default.jpg)';
 }
-

@@ -73,7 +73,7 @@ body {
 /* Fade-out transition */
 .fade-out {
   opacity: 1;
-  transition: opacity 7.5s ease-out;
+  transition: opacity 2s ease-out;
 }
 
 .fade-out.hidden {
@@ -150,7 +150,7 @@ body {
 
 #fullscreenOverlay button {
   padding: 1rem 2rem;
-  background-color: red;
+  background-color: #CA0707;
   color: white;
   border: none;
   font-size: 1.5rem;
@@ -165,7 +165,7 @@ body {
 
 #gameOverText {
   display: none;
-  color: red;
+  color: #CA0707;
   font-size: 3rem;
   position: absolute;
   bottom: 5vh;
@@ -189,7 +189,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  z-index: 9999;
+  z-index: 3;
 }
 
 #jumpscareImage {
@@ -205,7 +205,7 @@ body {
 
 #gameOverText {
   display: none;
-  color: red;
+  color: #CA0707;
   font-size: 3rem;
   margin-top: 20px;
 }
@@ -215,11 +215,14 @@ body {
   padding: 1rem 2rem;
   font-size: 1.5rem;
   margin-top: 20px;
-  background-color: red;
+  background-color: #CA0707;
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  z-index: 5;
+  margin-top: auto;
+  margin-bottom: 15px;
 }
 
 
