@@ -145,14 +145,30 @@ const scenes = {
     ]
   },
   keepongoin: {
-    text: "You decide to keep on walking, ignoring the abandoned building.",
-    background: 'url(images/park.png)',
+    text: "He makes it home safely and forgets about his discovery.",
+    background: 'url(images/living-room.png)',
     options: [
-      { text: "Go to the crime scene.", next: "crime" },
-      { text: "Visit the evidence room.", next: "evidence" },
-      { text: "Snoop around the station.", next: "snoop" }
+      { text: "He turns on the tv and puts on the news.", next: "tv" },
     ]
   },
+
+  tv: {
+    text: "News about the uprising robots start to announce As well as a cold case of a robot vs its owner.",
+    background: 'url(images/face-tv.png)',
+    options: [
+      { text: "Ignore the news and stay away from the case.", next: "away" },
+      { text: "Go back to the police department.", next: "personal" },
+    ]
+  },
+
+  away: {
+    text: "He deiced to stay away from the cold case which ended up becoming a war between humans vs robots. He stays out and watches from a far.",
+    background: 'url(images/war.png)',
+    options: [
+      { text: "Next", next: "robotmurder" }
+    ]
+  },
+
   evidence: {
     text: ".",
     background: 'url(images/evid-room.png)',
