@@ -120,13 +120,22 @@ const scenes = {
     ]
   },
   therapy: {
-    text: "You call out. Silence... then something howls back.",
+    text: "You find your new therapist rather weird thinking the therapist himself needs counseling instead of yourself.",
     background: 'url(images/therapy-room.png)',
     options: [
-      { text: "Run", next: "keep" },
-      { text: "Climb a tree", next: "climb" }
+      { text: "You look deeper into your therapist's background to ease your mind.", next: "research" },
+      { text: "You decide therapy is not for you and would like to try another option.", next: "next" },
+      { text: "You take time off of work to focus on other things that can make him feel a bit more calm.", next: "walk" }
     ]
   },
+  next: {
+    text: "Screw everything. You decide to go back to work, you can deal with all the stress and frustrastion",
+    background: 'url(images/therapy-room.png)',
+    options: [
+      { text: "Go back to work.", next: "personal" },
+    ]
+  },
+  
   snoop: {
     text: "As you snoop around the station, Harry sneaks up behind you and offers to help search for clues.",
     background: 'url(images/in-police-dep.png)',
@@ -185,7 +194,23 @@ const scenes = {
   anotherEnding: {
     background: 'url(images/another-jumpscare.png)',
     isJumpscare: true
-  }  
+  },
+
+  research: {
+  text: "You discover your therapist is an android and confront him about it. The android starts to get overwhelm...",
+  background: 'url(images/black.png)',
+  options: [
+    { text: "Next", next: "explosion" }
+  ]
+},
+explosion: {
+  background: 'url(images/robot-murder.png)',
+  isJumpscare: true
+},
+anotherEnding: {
+  background: 'url(images/another-jumpscare.png)',
+  isJumpscare: true
+}  
 };
 
 
