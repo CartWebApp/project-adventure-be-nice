@@ -370,4 +370,7 @@ function triggerJumpscare(backgroundImage) {
 
   restartButton.onclick = () => window.location.reload();
    }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
