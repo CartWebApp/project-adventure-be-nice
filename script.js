@@ -33,6 +33,22 @@ function enterFullscreen() {
   document.getElementById('fullscreenOverlay').style.display = 'none';
 }
 
+function typeWriter(text, element, speed = 15) {
+  element.textContent = ''; // Clear existing text
+  let i = 0;
+
+  function type() {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+      setTimeout(type, speed);
+    }
+  }
+
+  type();
+}
+
+
 // Check fullscreen status
 function checkFullscreenStatus() {
   const isFullscreen = document.fullscreenElement;
@@ -318,7 +334,7 @@ function showScene(key) {
     return;
   }
 
-  storyEl.textContent = scene.text;
+  typeWriter(scene.text, storyEl);
   choicesEl.innerHTML = '';
 
   scene.options.forEach(option => {
