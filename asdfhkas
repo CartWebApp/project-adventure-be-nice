@@ -1,0 +1,284 @@
+// --------------- VARIABLES ---------------- //
+let introVideoPlayed = false;
+let imagesPreloaded = false;
+
+// List of all images to preload
+const imagePaths = [
+  'images/dex-bedroom.png',
+  'images/park.png',
+  'images/police-dep.png',
+  'images/therapy-room.png',
+  'images/in-police-dep.png',
+  'images/living-room.png',
+  'images/face-tv.png',
+  'images/war.png',
+  'images/evid-room.png',
+  'images/abandoned-building.png',
+  'images/inside-ab.png',
+  'images/black.png',
+  'images/robot-murder.png',
+  'images/another-jumpscare.png',
+];
+
+// --------------- PRELOAD IMAGES ---------------- //
+function preloadImages(paths, callback) {
+  let loaded = 0;
+  paths.forEach((path) => {
+    const img = new Image();
+    img.src = path;
+    img.onload = img.onerror = () => {
+      loaded++;
+      if (loaded === paths.length) {
+        callback();
+      }
+    };
+  });
+}
+
+// --------------- FULLSCREEN & VIDEO ---------------- //
+function enterFullscreen() {
+  const elem = document.documentElement;
+  const video = document.getElementById('myVideo');
+
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen().catch(() => alert("Please allow fullscreen to play the game."));
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen();
+  } else {
+    alert("Your browser doesn't support fullscreen mode.");
+  }
+
+  if (video && !introVideoPlayed) {
+    video.play().catch(() => alert("There was an error playing the intro video."));
+    video.volume = 0.5;
+    introVideoPlayed = true;
+  }
+
+  document.getElementById('fullscreenOverlay').style.display = 'none';
+}
+
+function checkFullscreenStatus() {
+  const isFullscreen = document.fullscreenElement;
+  document.getElementById('fullscreenOverlay').style.display = isFullscreen ? 'none' : 'flex';
+}
+
+document.addEventListener('fullscreenchange', () => {
+  checkFullscreenStatus();
+
+  const isFullscreen = document.fullscreenElement;
+  const video = document.getElementById('myVideo');
+  const gameStarted = document.getElementById('game').style.display === 'block';
+
+  if (!isFullscreen && !gameStarted && video) {
+    video.pause();
+    video.currentTime = 0;
+  }
+
+  if (!isFullscreen) {
+    document.getElementById('fullscreenOverlay').style.display = 'flex';
+  }
+});
+
+// --------------- LOADING & START ---------------- //
+window.addEventListener('load', () => {
+  checkFullscreenStatus();
+
+  // Preload everything first
+  preloadImages(imagePaths, () => {
+    imagesPreloaded = true;
+    document.getElementById('startButton').style.display = 'block'; // Show start button
+  });
+});
+
+function userStartsGame() {
+  if (!imagesPreloaded) {
+    alert("Please wait, game is still loading...");
+    return;
+  }
+  startGame();
+}
+
+function startGame() {
+  const introVideo = document.getElementById('myVideo');
+  if (introVideo) {
+    introVideo.pause();
+    introVideo.currentTime = 0;
+  }
+
+  const loadingScreen = document.getElementById('loadingScreen');
+  loadingScreen.classList.add('fade-out');
+
+  setTimeout(() => {
+    loadingScreen.style.display = 'none';
+    document.getElementById('game').style.display = 'block';
+    showScene('start');
+  }, 2000); // Fade out in 2 sec
+}
+
+
+// ------------------ GAME LOGIC ------------------ //
+const storyEl = document.getElementById('story');
+const choicesEl = document.getElementById('choices');
+
+const scenes = {
+    start: {
+        text: "You wake up in your bed, pitch dark and the bright moon peeking through the windows. You look at your clock which reads 3:00AM and can't seem to get some rest. What do you do?",
+        background: 'url(images/dex-bedroom.png)', 
+        options: [
+          { text: "Decide to go for a late night walk at the nearby park.", next: "walk" },
+          { text: "Head to the police department and take on a new personal project.", next: "personal" },
+          { text: "Wait until the morning and seek some help for your mind, like therapy.", next: "therapy" }
+        ]
+      },
+      walk: {
+        text: "You decide to go for a walk hoping to clear your mind from all the recent activity. While on the other side of town where not many people reside, you find an abandoned building in the distance. What should you do?",
+        background: 'url(images/park.png)',
+        options: [
+          { text: "Investigate the abandoned building.", next: "investigate" },
+          { text: "Keep it in mind and report it later in the day to your peers at work.", next: "report" },
+          { text: "Ignore the abandoned building and keep walking.", next: "keepongoin" }
+        ]
+      },
+      personal: {
+        text: "You decided to walk into work at 3:00AM. You greet the police robot Harry who is there to secure the police station. You decide to look into that one growing case going on right now.",
+        background: 'url(images/police-dep.png)',
+        options: [
+          { text: "Go to the crime scene to find anything else that may be helpful.", next: "crime" },
+          { text: "Visit the evidence room to examine the evidence gathered.", next: "evidence" },
+          { text: "Snoop around the police station.", next: "snoop" }
+        ]
+      },
+      therapy: {
+        text: "You find your new therapist rather weird thinking the therapist himself needs counseling instead of yourself.",
+        background: 'url(images/therapy-room.png)',
+        options: [
+          { text: "You look deeper into your therapist's background to ease your mind.", next: "research" },
+          { text: "You decide therapy is not for you and would like to try another option.", next: "next" },
+          { text: "You take time off of work to focus on other things that can make him feel a bit more calm.", next: "walk" }
+        ]
+      },
+      next: {
+        text: "Screw everything. You decide to go back to work, you can deal with all the stress and frustrastion",
+        background: 'url(images/therapy-room.png)',
+        options: [
+          { text: "Go back to work.", next: "personal" },
+        ]
+      },
+      
+      snoop: {
+        text: "As you snoop around the station, Harry sneaks up behind you and offers to help search for clues.",
+        background: 'url(images/in-police-dep.png)',
+        options: [
+          { text: "Brush him off and ignore him.", next: "clearing" },
+          { text: "Accept help from Harry and tell him what to find.", next: "keepRunning" }
+        ]
+      },
+      keepongoin: {
+        text: "He makes it home safely and forgets about his discovery.",
+        background: 'url(images/living-room.png)',
+        options: [
+          { text: "He turns on the tv and puts on the news.", next: "tv" },
+        ]
+      },
+    
+      tv: {
+        text: "News about the uprising robots start to announce As well as a cold case of a robot vs its owner.",
+        background: 'url(images/face-tv.png)',
+        options: [
+          { text: "Ignore the news and stay away from the case.", next: "away" },
+          { text: "Go back to the police department.", next: "personal" },
+        ]
+      },
+    
+      away: {
+        text: "He deiced to stay away from the cold case which ended up becoming a war between humans vs robots. He stays out and watches from a far.",
+        background: 'url(images/war.png)',
+        options: [
+          { text: "Next", next: "robotmurder" }
+        ]
+      },
+    
+      evidence: {
+        text: ".",
+        background: 'url(images/evid-room.png)',
+        options: [
+          { text: "Go to the crime scene.", next: "crime" },
+          { text: "Visit the evidence room.", next: "evidence" },
+          { text: "Snoop around the station.", next: "scene" }
+        ]
+      },
+      investigate: {
+        text: "You decided to go and investigate this abandoned building not knowing what it was. You see 3 entrances and can't decide which one to use to go in.",
+        background: 'url(images/abandoned-building.png)',
+        options: [
+          { text: "Go inside from the right.", next: "insideab" },
+          { text: "Head inside through the front door.", next: "insideab" },
+          { text: "Try to find a backdoor to enter through.", next: "insideab" }
+        ]
+      },
+      insideab: {
+        text: "As you enter the building, you find a pile of robotic parts scattered all around. What will you do?",
+        background: 'url(images/inside-ab.png)',
+        options: [
+          { text: "Decide not to go further and leave the building feeling creeped out.", next: "leavecoward" },
+          { text: "Get curious and decide to explore the building.", next: "exploreab" },
+          { text: "Start freaking out, causing you to trip over robotic parts and land into the pile.", next: "watchyourstep" }
+        ]
+      },
+      watchyourstep: {
+        text: "You trip over robotic parts and land into the pile.",
+        background: 'url(images/black.png)',
+        options: [
+          { text: "Next", next: "robotmurder" }
+        ]
+      },
+      robotmurder: {
+        background: 'url(images/robot-murder.png)',
+        isJumpscare: true
+      },
+      anotherEnding: {
+        background: 'url(images/another-jumpscare.png)',
+        isJumpscare: true
+      },
+    
+      research: {
+      text: "You discover your therapist is an android and confront him about it. The android starts to get overwhelm...",
+      background: 'url(images/black.png)',
+      options: [
+        { text: "Next", next: "explosion" }
+      ]
+    },
+    explosion: {
+      background: 'url(images/robot-murder.png)',
+      isJumpscare: true
+    },
+    anotherEnding: {
+      background: 'url(images/another-jumpscare.png)',
+      isJumpscare: true
+    }  
+    };
+
+function showScene(key) {
+  const scene = scenes[key];
+
+  if (!scene) {
+    storyEl.textContent = "Scene not found.";
+    choicesEl.innerHTML = '';
+    return;
+  }
+
+  storyEl.textContent = scene.text;
+  choicesEl.innerHTML = '';
+
+  scene.options.forEach(option => {
+    const btn = document.createElement('button');
+    btn.textContent = option.text;
+    btn.className = 'option-button';
+    btn.onclick = () => showScene(option.next);
+    choicesEl.appendChild(btn);
+  });
+
+  document.body.style.backgroundImage = scene.background || 'url(images/default.jpg)';
+}
