@@ -179,7 +179,7 @@ const scenes = {
   },
 
   evidence: {
-    text: ".",
+    text: "..",
     background: 'url(images/evid-room.png)',
     options: [
       { text: "Go to the crime scene.", next: "crime" },
