@@ -100,7 +100,7 @@ const scenes = {
       { text: "Head to the police department and take on a new personal project.", next: "personal" },
       { text: "Wait until the morning and seek some help for your mind, like therapy.", next: "therapy" }
     ]
-  },
+  }, 
   walk: {
     text: "You decide to go for a walk hoping to clear your mind from all the recent activity. While on the other side of town where not many people reside, you find an abandoned building in the distance. What should you do?",
     background: 'url(images/park.png)',
@@ -145,6 +145,15 @@ const scenes = {
     ]
   },
   keepongoin: {
+    text: "You continue walking but suddenly stops as you hear mysterious sounds coming from the building.",
+    background: 'url(images/living-room.png)',
+    options: [
+      { text: "You decide to ignore it and go home.", next: "home" },
+      {text: "You stop and decide to go back to the abandon building.", next: "investigate"}
+    ]
+  },
+
+  home: {
     text: "He makes it home safely and forgets about his discovery.",
     background: 'url(images/living-room.png)',
     options: [
@@ -187,13 +196,24 @@ const scenes = {
       { text: "Try to find a backdoor to enter through.", next: "insideab" }
     ]
   },
+
+
   insideab: {
     text: "As you enter the building, you find a pile of robotic parts scattered all around. What will you do?",
     background: 'url(images/inside-ab.png)',
     options: [
-      { text: "Decide not to go further and leave the building feeling creeped out.", next: "leavecoward" },
+      { text: "Decide not to go further and leave the building feeling creeped out.", next: "keepongoin" },
       { text: "Get curious and decide to explore the building.", next: "exploreab" },
       { text: "Start freaking out, causing you to trip over robotic parts and land into the pile.", next: "watchyourstep" }
+    ]
+  },
+     
+  exploreab: {
+    text: "As you explore you hear an old television start to play the news about the uprising robots as well as a cold case of a robot vs its owner.",
+    background: 'url(images/a-tv.png)',
+    options: [
+      { text: "Ignore the news and stay away from the case.", next: "away" },
+      { text: "Go back to the police department.", next: "personal" },
     ]
   },
   watchyourstep: {
@@ -311,3 +331,43 @@ function showScene(key) {
 
   document.body.style.backgroundImage = scene.background || 'url(images/default.jpg)';
 }
+<<<<<<< Updated upstream
+=======
+
+// Trigger jumpscare
+function triggerJumpscare(backgroundImage) {
+  const overlay = document.getElementById('jumpscareOverlay');
+  const img = document.getElementById('jumpscareImage');
+  const gameOverText = document.getElementById('gameOverText');
+  const restartButton = document.getElementById('restartButton');
+
+  overlay.style.display = 'flex';
+  img.style.display = 'none';
+  gameOverText.style.display = 'none';
+  restartButton.style.display = 'none';
+
+  const imagePath = backgroundImage.replace(/^url\((['"])?(.*?)\1\)$/, '$2');
+  img.src = imagePath;
+
+  img.onerror = () => console.error('Jumpscare image failed to load:', backgroundImage);
+
+  setTimeout(() => {
+    img.style.display = 'block';
+
+    const screamSound = new Audio('sound/jumpscare.mp3');
+    screamSound.volume = 0.1;
+    screamSound.play().catch(() => {
+      const fallbackSound = new Audio('sound/jumpscare.mp3');
+      fallbackSound.volume = 0.5;
+      fallbackSound.play();
+    });
+
+    setTimeout(() => {
+      gameOverText.style.display = 'block';
+      restartButton.style.display = 'inline-block';
+    }, 500);
+  }, 300);
+
+  restartButton.onclick = () => window.location.reload();
+   }
+>>>>>>> Stashed changes
