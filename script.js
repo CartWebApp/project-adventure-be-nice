@@ -105,12 +105,12 @@ const scenes = {
     ]
   },
   personal: {
-    text: "You decided to walk into work at 3:00AM. You greet the police robot Harry who is there to secure the police station. You decide to look into that one growing case going on right now.",
+    text: "You go back to the police department to research more about the cold case taking on a new personal project in his spare time, perhaps investigating the uprising cold case will help distract yourself from the growing unrest.",
     background: 'url(images/police-dep.png)',
     options: [
-      { text: "Go to the crime scene to find anything else that may be helpful.", next: "crime" },
-      { text: "Visit the evidence room to examine the evidence gathered.", next: "evidence" },
-      { text: "Snoop around the police station.", next: "snoop" }
+      { text: "Investigate the actual crime scene.", next: "crime" },
+      { text: "Look through the evidences that they found.", next: "evidence" },
+      { text: "Look around the police department and overhear the rumors.", next: "snoop" }
     ]
   },
   therapy: {
@@ -131,13 +131,69 @@ const scenes = {
   },
   
   snoop: {
-    text: "As you snoop around the station, Harry sneaks up behind you and offers to help search for clues.",
+    text: "As you snoops around you get caught by a fellow android named Harry.",
     background: 'url(images/in-police-dep.png)',
     options: [
-      { text: "Brush him off and ignore him.", next: "clearing" },
-      { text: "Accept help from Harry and tell him what to find.", next: "keepRunning" }
+      { text: "Ignore Harry and continue snooping around for information.", next: "ignore" },
+      { text: "Accept help from Harry.", next: "help" }
     ]
   },
+
+  ignore: {
+    text: "You're openly hostile toward Harry, questioning whether an android could truly understand the complexities of human emotions and justice.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Refuse help or insight from Harry.", next: "refuse" },
+      { text: "Consider Harries help.", next: "consider" }
+    ]
+  },
+
+  help: {
+    text: "You hesitate but ultimately agree to work closely with Harry, trying to understand his perspective despite his reservations about androids.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Become partners with Harry.", next: "partners" },
+      { text: "Thank Harry for his help but secretly continue working by yourself.", next: "thank" }
+    ]
+  },
+ 
+
+  refuse: {
+    text: "As you continue to investigate the crime by yourself, you're forced to confront the truth when you realizes that the murder was committed by a rogue human, not an android. You must decide whether to protect the truth or continue to fight against the growing android rebellion.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "You decide to share your findings with your team.", next: "share" },
+      { text: "You secretly investigate the rogue human suspect on your own, avoiding official channels out of fear of being compromised by the system.", next: "yourself" },
+      { text: "You turn to Harry for advice on how to handle the situation.", next: "advice" }
+    ]
+  },
+
+  consider: {
+    text: ".",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: ".", next: "refuse" },
+      { text: ".", next: "consider" }
+    ]
+  },
+
+  partners: {
+    text: "You're openly hostile toward Harry, questioning whether an android could truly understand the complexities of human emotions and justice.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: ".", next: "refuse" },
+      { text: ".", next: "consider" }
+    ]
+  },
+  thank: {
+    text: ".",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: ".", next: "refuse" },
+      { text: ".", next: "consider" }
+    ]
+  },
+
   keepongoin: {
     text: "He makes it home safely and forgets about his discovery.",
     background: 'url(images/living-room.png)',
@@ -145,6 +201,7 @@ const scenes = {
       { text: "He turns on the tv and puts on the news.", next: "tv" },
     ]
   },
+
 
   tv: {
     text: "News about the uprising robots start to announce As well as a cold case of a robot vs its owner.",
