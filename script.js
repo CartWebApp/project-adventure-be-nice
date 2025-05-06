@@ -1,14 +1,15 @@
-// Track intro video status
+// Flag to track if the intro video has been played
 let introVideoPlayed = false;
 
-// Enter fullscreen + play intro video
+// Enter fullscreen and play intro video
 function enterFullscreen() {
   const elem = document.documentElement;
   const video = document.getElementById('myVideo');
 
-  // Request fullscreen
   if (elem.requestFullscreen) {
-    elem.requestFullscreen().catch(() => alert("Please allow fullscreen to play the game."));
+    elem.requestFullscreen().catch(err => {
+      alert("Please allow fullscreen to play the game.");
+    });
   } else if (elem.webkitRequestFullscreen) {
     elem.webkitRequestFullscreen();
   } else if (elem.msRequestFullscreen) {
@@ -17,38 +18,29 @@ function enterFullscreen() {
     alert("Your browser doesn't support fullscreen mode.");
   }
 
-  // Play intro video only once
+  // Play the video only if it hasn't been played yet
   if (video && !introVideoPlayed) {
     video.play().catch(err => {
       console.error("Error playing video:", err);
       alert("There was an error playing the intro video.");
     });
-    video.volume = 0.5;
+    video.volume = 0.50;
     introVideoPlayed = true;
   }
+  
 
-  // Hide fullscreen overlay
+  // Hide the fullscreen overlay when entering fullscreen
   document.getElementById('fullscreenOverlay').style.display = 'none';
 }
 
-// Prevent auto-start by pausing/resetting video on load
-window.addEventListener('load', () => {
-  const video = document.getElementById('myVideo');
-  if (video) {
-    video.pause();
-    video.currentTime = 0;
-  }
-  checkFullscreenStatus();
-});
-
 // Check fullscreen status
 function checkFullscreenStatus() {
-  const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+  const isFullscreen = document.fullscreenElement;
   const overlay = document.getElementById('fullscreenOverlay');
   overlay.style.display = isFullscreen ? 'none' : 'flex';
 }
 
-// Handle fullscreen changes
+// Handle exiting fullscreen: pause and reset the video
 document.addEventListener('fullscreenchange', () => {
   checkFullscreenStatus();
 
@@ -56,32 +48,46 @@ document.addEventListener('fullscreenchange', () => {
   const video = document.getElementById('myVideo');
   const gameStarted = document.getElementById('game').style.display === 'block';
 
-  if (!isFullscreen && !gameStarted && video) {
-    video.pause();
-    video.currentTime = 0;
+  // If fullscreen is exited and the game hasn't started yet, stop video/audio
+  if (!isFullscreen && !gameStarted) {
+    if (video) {
+      video.pause();
+      video.currentTime = 0;
+    }
+  }
+
+  // Show fullscreen prompt if exiting fullscreen
+  if (!isFullscreen) {
+    const fullscreenOverlay = document.getElementById('fullscreenOverlay');
+    fullscreenOverlay.style.display = 'flex';  // Show the fullscreen prompt when leaving fullscreen
   }
 });
 
-// Start game after intro
+// Start game function (when user clicks start)
 function startGame() {
-  const video = document.getElementById('myVideo');
-  if (video) {
-    video.pause();
-    video.currentTime = 0;
+  const introVideo = document.getElementById('myVideo');
+  if (introVideo) {
+    introVideo.pause();
+    introVideo.currentTime = 0;
   }
 
-  // Fade out loading screen
+  // Apply fade-out effect
   const loadingScreen = document.getElementById('loadingScreen');
   loadingScreen.classList.add('fade-out');
 
+  // Delay hiding the screen after fade-out completes
   setTimeout(() => {
-    loadingScreen.style.display = 'none';
-    document.getElementById('game').style.display = 'block';
-    showScene('start');
-  }, 2000);
+    loadingScreen.style.display = 'none';  // Hide loading screen
+    document.getElementById('game').style.display = 'block';  // Show game content
+    showScene('start');  // Show initial scene
+  }, 2000); // Matches the fade duration (2 seconds)
 }
 
+// Run fullscreen check on page load
+window.addEventListener('load', checkFullscreenStatus);
+
 // ------------------ GAME LOGIC ------------------ //
+
 const storyEl = document.getElementById('story');
 const choicesEl = document.getElementById('choices');
 
@@ -105,12 +111,12 @@ const scenes = {
     ]
   },
   personal: {
-    text: "You go back to the police department to research more about the cold case taking on a new personal project in his spare time, perhaps investigating the uprising cold case will help distract yourself from the growing unrest.",
+    text: "You decided to walk into work at 3:00AM. You greet the police robot Harry who is there to secure the police station. You decide to look into that one growing case going on right now.",
     background: 'url(images/police-dep.png)',
     options: [
-      { text: "Investigate the actual crime scene.", next: "crime" },
-      { text: "Look through the evidences that they found.", next: "evidence" },
-      { text: "Look around the police department and overhear the rumors.", next: "snoop" }
+      { text: "Go to the crime scene to find anything else that may be helpful.", next: "crime" },
+      { text: "Visit the evidence room to examine the evidence gathered.", next: "evidence" },
+      { text: "Snoop around the police station.", next: "snoop" }
     ]
   },
   therapy: {
@@ -131,69 +137,13 @@ const scenes = {
   },
   
   snoop: {
-    text: "As you snoops around you get caught by a fellow android named Harry.",
+    text: "As you snoop around the station, Harry sneaks up behind you and offers to help search for clues.",
     background: 'url(images/in-police-dep.png)',
     options: [
-      { text: "Ignore Harry and continue snooping around for information.", next: "ignore" },
-      { text: "Accept help from Harry.", next: "help" }
+      { text: "Brush him off and ignore him.", next: "clearing" },
+      { text: "Accept help from Harry and tell him what to find.", next: "keepRunning" }
     ]
   },
-
-  ignore: {
-    text: "You're openly hostile toward Harry, questioning whether an android could truly understand the complexities of human emotions and justice.",
-    background: 'url(images/in-police-dep.png)',
-    options: [
-      { text: "Refuse help or insight from Harry.", next: "refuse" },
-      { text: "Consider Harries help.", next: "consider" }
-    ]
-  },
-
-  help: {
-    text: "You hesitate but ultimately agree to work closely with Harry, trying to understand his perspective despite his reservations about androids.",
-    background: 'url(images/in-police-dep.png)',
-    options: [
-      { text: "Become partners with Harry.", next: "partners" },
-      { text: "Thank Harry for his help but secretly continue working by yourself.", next: "thank" }
-    ]
-  },
- 
-
-  refuse: {
-    text: "As you continue to investigate the crime by yourself, you're forced to confront the truth when you realizes that the murder was committed by a rogue human, not an android. You must decide whether to protect the truth or continue to fight against the growing android rebellion.",
-    background: 'url(images/in-police-dep.png)',
-    options: [
-      { text: "You decide to share your findings with your team.", next: "share" },
-      { text: "You secretly investigate the rogue human suspect on your own, avoiding official channels out of fear of being compromised by the system.", next: "yourself" },
-      { text: "You turn to Harry for advice on how to handle the situation.", next: "advice" }
-    ]
-  },
-
-  consider: {
-    text: ".",
-    background: 'url(images/in-police-dep.png)',
-    options: [
-      { text: ".", next: "refuse" },
-      { text: ".", next: "consider" }
-    ]
-  },
-
-  partners: {
-    text: "You're openly hostile toward Harry, questioning whether an android could truly understand the complexities of human emotions and justice.",
-    background: 'url(images/in-police-dep.png)',
-    options: [
-      { text: ".", next: "refuse" },
-      { text: ".", next: "consider" }
-    ]
-  },
-  thank: {
-    text: ".",
-    background: 'url(images/in-police-dep.png)',
-    options: [
-      { text: ".", next: "refuse" },
-      { text: ".", next: "consider" }
-    ]
-  },
-
   keepongoin: {
     text: "He makes it home safely and forgets about his discovery.",
     background: 'url(images/living-room.png)',
@@ -201,7 +151,6 @@ const scenes = {
       { text: "He turns on the tv and puts on the news.", next: "tv" },
     ]
   },
-
 
   tv: {
     text: "News about the uprising robots start to announce As well as a cold case of a robot vs its owner.",
@@ -280,6 +229,60 @@ anotherEnding: {
 }  
 };
 
+
+function triggerJumpscare(backgroundImage) {
+  const overlay = document.getElementById('jumpscareOverlay');
+  const img = document.getElementById('jumpscareImage');
+  const gameOverText = document.getElementById('gameOverText');
+  const restartButton = document.getElementById('restartButton');
+
+  // Reset overlay
+  overlay.style.display = 'flex';
+  img.style.display = 'none';
+  gameOverText.style.display = 'none';
+  restartButton.style.display = 'none';
+
+  // Set the image from the passed backgroundImage
+  const imagePath = backgroundImage.replace(/^url\((['"])?(.*?)\1\)$/, '$2');
+  img.src = imagePath;
+
+  img.onerror = () => {
+    console.error('Jumpscare image failed to load:', backgroundImage);
+  };
+
+  const delay = 300; // Delay before showing the jumpscare image and playing sound
+
+  setTimeout(() => {
+    img.style.display = 'block';
+
+    // Create the audio object and set the volume
+    const screamSound = new Audio('sound/jumpscare.mp3');
+    screamSound.volume = 0.1;  // Set volume to 50% (you can adjust this value)
+
+    // Play the audio, ensuring it's loaded and playing correctly
+    screamSound.play().catch(err => {
+      console.warn('Sound play error:', err);
+      // Optional: Provide a fallback sound if primary one fails
+      const fallbackSound = new Audio('sound/jumpscare.mp3');
+      fallbackSound.volume = .5;  // Same volume for the fallback
+      fallbackSound.play();
+    });
+
+    // Show game over text and restart button after a brief delay
+    setTimeout(() => {
+      gameOverText.style.display = 'block';
+      restartButton.style.display = 'inline-block';
+    }, 500);
+  }, delay);
+
+  // When restarting, ensure that fullscreen prompt is visible if not in fullscreen
+  restartButton.onclick = () => {
+    window.location.reload();
+  };
+}
+
+
+// Show scene
 function showScene(key) {
   const scene = scenes[key];
 
@@ -289,15 +292,16 @@ function showScene(key) {
     return;
   }
 
+  // Check if this scene is a jumpscare
   if (scene.isJumpscare) {
-    triggerJumpscare(scene.background);
+    triggerJumpscare(scene.background); // Pass image if needed
     return;
   }
 
   storyEl.textContent = scene.text;
   choicesEl.innerHTML = '';
 
-  (scene.options || []).forEach(option => {
+  scene.options.forEach(option => {
     const btn = document.createElement('button');
     btn.textContent = option.text;
     btn.className = 'option-button';
@@ -306,41 +310,4 @@ function showScene(key) {
   });
 
   document.body.style.backgroundImage = scene.background || 'url(images/default.jpg)';
-}
-
-// Trigger jumpscare
-function triggerJumpscare(backgroundImage) {
-  const overlay = document.getElementById('jumpscareOverlay');
-  const img = document.getElementById('jumpscareImage');
-  const gameOverText = document.getElementById('gameOverText');
-  const restartButton = document.getElementById('restartButton');
-
-  overlay.style.display = 'flex';
-  img.style.display = 'none';
-  gameOverText.style.display = 'none';
-  restartButton.style.display = 'none';
-
-  const imagePath = backgroundImage.replace(/^url\((['"])?(.*?)\1\)$/, '$2');
-  img.src = imagePath;
-
-  img.onerror = () => console.error('Jumpscare image failed to load:', backgroundImage);
-
-  setTimeout(() => {
-    img.style.display = 'block';
-
-    const screamSound = new Audio('sound/jumpscare.mp3');
-    screamSound.volume = 0.1;
-    screamSound.play().catch(() => {
-      const fallbackSound = new Audio('sound/jumpscare.mp3');
-      fallbackSound.volume = 0.5;
-      fallbackSound.play();
-    });
-
-    setTimeout(() => {
-      gameOverText.style.display = 'block';
-      restartButton.style.display = 'inline-block';
-    }, 500);
-  }, 300);
-
-  restartButton.onclick = () => window.location.reload();
 }
