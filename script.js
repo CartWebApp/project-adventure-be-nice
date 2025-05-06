@@ -331,8 +331,6 @@ function showScene(key) {
 
   document.body.style.backgroundImage = scene.background || 'url(images/default.jpg)';
 }
-<<<<<<< Updated upstream
-=======
 
 // Trigger jumpscare
 function triggerJumpscare(backgroundImage) {
@@ -370,7 +368,3 @@ function triggerJumpscare(backgroundImage) {
 
   restartButton.onclick = () => window.location.reload();
    }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
