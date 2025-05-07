@@ -155,7 +155,7 @@ const scenes = {
   },
   next: {
     text: "Screw everything. You decide to go back to work, you can deal with all the stress and frustrastion",
-    background: 'url(images/therapy-room.png)',
+    background: 'url(images/in-car.png)',
     options: [
       { text: "Go back to work.", next: "personal" },
     ]
@@ -180,7 +180,7 @@ const scenes = {
   },
   hlead: {
     text: "You hesitate but ultimately agree to work closely with Harry, trying to understand his perspective despite his reservations about androids.",
-    background: 'url(images/crime-scene.png)',
+    background: 'url(images/harry-lead.png)',
     options: [
       { text: "Become partners with Harry.", next: "more" },
       { text: "Thank Harry and work by yourself.", next: "keep" }
