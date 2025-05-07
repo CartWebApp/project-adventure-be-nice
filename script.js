@@ -26,15 +26,20 @@ function enterFullscreen() {
     });
     video.volume = 0.50;
     introVideoPlayed = true;
-  }
+  } 
   
 
   // Hide the fullscreen overlay when entering fullscreen
   document.getElementById('fullscreenOverlay').style.display = 'none';
 }
 
+let typingInProgress = false;
+
 function typeWriter(text, element, speed = 15) {
-  element.textContent = ''; // Clear existing text
+  if (typingInProgress) return;  // Avoid overlapping typing effects
+  
+  typingInProgress = true;
+  element.textContent = '';
   let i = 0;
 
   function type() {
@@ -42,11 +47,15 @@ function typeWriter(text, element, speed = 15) {
       element.textContent += text.charAt(i);
       i++;
       setTimeout(type, speed);
+    } else {
+      typingInProgress = false;  // Reset flag when typing is finished
     }
   }
 
   type();
 }
+
+
 
 
 // Check fullscreen status
@@ -160,12 +169,21 @@ const scenes = {
     ]
   },
 
+
+  lead: {
+    text: "You befriend Harry choosing to confide in him about his doubts regarding the system and asking him for more insight into the android perspective.",
+    background: 'url(images/crime-scene.png)',
+    options: [
+      { text: "Learn more about Harry.", next: "more" },
+      { text: "Keep harry as a tool and just a tool nothing more.", next: "keep " }
+    ]
+  },
   hlead: {
     text: "You hesitate but ultimately agree to work closely with Harry, trying to understand his perspective despite his reservations about androids.",
     background: 'url(images/crime-scene.png)',
     options: [
-      { text: "Become partners with Harry.", next: "lead" },
-      { text: "Thank Harry and work by yourself.", next: "hlead" }
+      { text: "Become partners with Harry.", next: "more" },
+      { text: "Thank Harry and work by yourself.", next: "keep" }
     ]
   },
 
@@ -183,10 +201,94 @@ const scenes = {
     text: "You are openly hostile toward Harry, questioning whether an android could truly understand the complexities of human emotions and justice.",
     background: 'url(images/in-police-dep.png)',
     options: [
-      { text: "Refuse help or insight from Harry.", next: "brush" },
-      { text: "Consider Harrys' help.", next: "hlead" }
+      { text: "Refuse help or insight from Harry.", next: "keep" },
+      { text: "Consider Harrys' help.", next: "more" }
     ]
   },
+ 
+  keep: {
+    text: "As you continue to investigate the crime by yourself, you are forced to confront the truth when you realize that the murder you are investigating was committed by a rogue human, not an android. You must decide whether to protect the truth or continue to fight against the growing android rebellion.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Dexter decides to share his findings with his team, hoping they will back him up, but they dismiss his concerns, leaving him feeling isolated.", next: "haha" },
+      { text: "He secretly investigates the rogue human suspect on his own, avoiding official channels out of fear of being compromised by the system.", next: "shh" },
+      { text: "Dexter turns to Harry for advice on how to handle the situation, and together they form a plan to expose the truth, despite the risks involved.", next: "intro" }
+    ]
+  },
+
+  more: {
+    text: "As you learn more about Harry and his android point of view you become more open. Though you still have worry over androids. What should you do?",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Become more open towards androids and work with Harry.", next: "intro" },
+      { text: "Decide to stay away from Harry for now and work alone.", next: "shh" }
+    ]
+  },
+
+  shh: {
+    text: "Dexter’s loyalty is tested as he is forced to choose between his duty as a detective and his growing understanding of the plight of the androids. He forms an uneasy alliance with Harry though he remains conflicted about the consequences of their actions.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Dexter continues to work alone, taking on the burden of the investigation herself and finding himself more isolated as he starts uncovering deeper truths.", next: "haha" },
+      { text: "He finds himself torn between trusting his human allies and forging new alliances with androids who reveal shocking truths.", next: "intro" },
+      { text: "Dexter former colleagues begin to suspect him of betraying the human side, making his situation even more precarious.", next: "report" }
+    ]
+  },
+
+  intro: {
+    text: "Harry introduces Dexter to the leader of the rebellions. Dexter faces off against the mastermind behind the conspiracy, confronting his own beliefs about justice and morality.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Dexter chooses to fight for the rebellion, abandoning his role as a law enforcer and embracing his new belief in the cause of android liberation.", next: "." },
+      { text: "He confronts the mastermind and ultimately decides to hand them over to human authorities, choosing to uphold his sense of justice at great personal cost.", next: "handsover" },
+      { text: "Dexter sides with neither faction, choosing to take the rebellion down in a way that avoids bloodshed while ensuring neither side gains the upper hand.", next: "backfire" }
+    ]
+  },
+
+  handsover: {
+    text: "He hands them over and humans win control over robots again.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Next", next: "robotmurder" }, 
+    ]
+  },
+  
+
+  backfire: {
+    text: "Plan backfires and ends up causing bloodshed.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Next", next: "robotmurder" }, 
+    ]
+  },
+  
+  haha: {
+    text: "Dexter faces a moral crossroads as he must decide whether to help the rebellion or stop them. He prepares to take down the leaders of the movement, but a part of you sympathizes with their cause.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Dexter secretly meets with the android rebellion’s leaders to try to understand their motivations and decide if they are right or wrong.", next: "intro" },
+      { text: "He plans to sabotage the rebellion, believing that if they succeed, it will lead to chaos and violence, destabilizing everything he holds dear.", next: "." },
+      { text: "Dexter tries to make peace by meeting with both the rebellion and human officials, hoping to find common ground and prevent violence.", next: "peace" }
+    ]
+  },
+
+  peace: {
+    text: "He talks to harry to come up with a plan where both sides can agree on.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Next", next: "intro" }, 
+    ]
+  },
+
+  report: {
+    text: "They end up firing him not believing him and finding him sketchy causing him to not be able to anything anymore. He watches from a far.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Next", next: "robotmurder" }, 
+    ]
+  },
+
+
 
   keepongoin: {
     text: "You continue walking but suddenly stops as you hear mysterious sounds coming from the building.",
@@ -356,15 +458,20 @@ function showScene(key) {
     return;
   }
 
+  // Clear the current content and reset the storyEl before starting the typewriter
+  storyEl.textContent = '';
+  choicesEl.innerHTML = '';
+
   // Check if this scene is a jumpscare
   if (scene.isJumpscare) {
     triggerJumpscare(scene.background); // Pass image if needed
     return;
   }
 
+  // Start the typewriter effect for the new scene
   typeWriter(scene.text, storyEl);
-  choicesEl.innerHTML = '';
 
+  // Create the choices buttons for the new scene
   scene.options.forEach(option => {
     const btn = document.createElement('button');
     btn.textContent = option.text;
@@ -373,8 +480,10 @@ function showScene(key) {
     choicesEl.appendChild(btn);
   });
 
+  // Update the background for the new scene
   document.body.style.backgroundImage = scene.background || 'url(images/default.jpg)';
 }
+
 
 // Trigger jumpscare
 function triggerJumpscare(backgroundImage) {
