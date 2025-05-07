@@ -149,7 +149,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
+  font-size: 3rem;
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -160,11 +160,8 @@ body {
   background-color: #CA0707;
   color: white;
   border: none;
-<<<<<<< Updated upstream
-  font-size: 1rem;
-=======
-  font-size: 3rem;
->>>>>>> Stashed changes
+
+  font-size: 2rem;
   cursor: pointer;
   border-radius: 10px;
   transition: background-color .25s;
@@ -177,15 +174,12 @@ body {
 #gameOverText {
   display: none;
   color: #CA0707;
-  font-size: 3rem;
+  font-size: 5rem;
   position: absolute;
-  bottom: 5vh;
-  left: 50%;
-  transform: translateX(-50%);
+  margin: auto;
   text-align: center;
   animation: flash 1s infinite;
-  position: absolute;
-  z-index: 9999;
+  z-index: 5;
 
 }
 
@@ -214,26 +208,15 @@ body {
   z-index: 1;
 }
 
-#gameOverText {
-  display: none;
-  color: #CA0707;
-  font-size: 3rem;
-  margin-top: 20px;
-}
-
 #restartButton {
   display: none;
-  padding: 1rem 2rem;
-  font-size: 1.5rem;
-  margin-top: 20px;
+  padding: .5rem 2rem;
+  font-size: 3rem;
   background-color: #CA0707;
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
   z-index: 5;
-  margin-top: auto;
-  margin-bottom: 15px;
+  margin-top: 10%;
 }
-
-
