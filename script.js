@@ -151,15 +151,43 @@ const scenes = {
       { text: "Go back to work.", next: "personal" },
     ]
   },
-  
+  crime: {
+    text: "As you drive to the crime scene you meet a fellow Android that works with the police department. His name is Harry.",
+    background: 'url(images/crime-scene.png)',
+    options: [
+      { text: "Explore the crime scene by yourself as Harry follows behind and explains the scene.", next: "lead" },
+      { text: "Let Harry lead and tell you what he has found so far.", next: "hlead" }
+    ]
+  },
+
+  hlead: {
+    text: "You hesitate but ultimately agree to work closely with Harry, trying to understand his perspective despite his reservations about androids.",
+    background: 'url(images/crime-scene.png)',
+    options: [
+      { text: "Become partners with Harry.", next: "lead" },
+      { text: "Thank Harry and work by yourself.", next: "hlead" }
+    ]
+  },
+
+
   snoop: {
     text: "As you snoop around the station, Harry sneaks up behind you and offers to help search for clues.",
     background: 'url(images/in-police-dep.png)',
     options: [
-      { text: "Brush him off and ignore him.", next: "clearing" },
-      { text: "Accept help from Harry and tell him what to find.", next: "keepRunning" }
+      { text: "Brush him off and ignore him.", next: "brush" },
+      { text: "Accept help from Harry and tell him what to find.", next: "hlead" }
     ]
   },
+
+  brush: {
+    text: "You are openly hostile toward Harry, questioning whether an android could truly understand the complexities of human emotions and justice.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Refuse help or insight from Harry.", next: "brush" },
+      { text: "Consider Harrys' help.", next: "hlead" }
+    ]
+  },
+
   keepongoin: {
     text: "You continue walking but suddenly stops as you hear mysterious sounds coming from the building.",
     background: 'url(images/living-room.png)',

@@ -156,11 +156,15 @@ body {
 }
 
 #fullscreenOverlay button {
-  padding: 1rem 2rem;
+  padding: .5rem 1rem;
   background-color: #CA0707;
   color: white;
   border: none;
+<<<<<<< Updated upstream
   font-size: 1rem;
+=======
+  font-size: 3rem;
+>>>>>>> Stashed changes
   cursor: pointer;
   border-radius: 10px;
   transition: background-color .25s;
