@@ -33,30 +33,6 @@ function enterFullscreen() {
   document.getElementById('fullscreenOverlay').style.display = 'none';
 }
 
-let typingInProgress = false;
-
-function typeWriter(text, element, speed = 15) {
-  if (typingInProgress) return;  // Avoid overlapping typing effects
-  
-  typingInProgress = true;
-  element.textContent = '';
-  let i = 0;
-
-  function type() {
-    if (i < text.length) {
-      element.textContent += text.charAt(i);
-      i++;
-      setTimeout(type, speed);
-    } else {
-      typingInProgress = false;  // Reset flag when typing is finished
-    }
-  }
-
-  type();
-}
-
-
-
 
 // Check fullscreen status
 function checkFullscreenStatus() {
@@ -602,7 +578,7 @@ function showScene(key) {
     return;
   }
 
-  // Clear the current content and reset the storyEl before starting the typewriter
+  // Clear the current content
   storyEl.textContent = '';
   choicesEl.innerHTML = '';
 
@@ -612,8 +588,8 @@ function showScene(key) {
     return;
   }
 
-  // Start the typewriter effect for the new scene
-  typeWriter(scene.text, storyEl);
+
+  storyEl.textContent = scene.text;
 
   // Create the choices buttons for the new scene
   scene.options.forEach(option => {
@@ -627,6 +603,7 @@ function showScene(key) {
   // Update the background for the new scene
   document.body.style.backgroundImage = scene.background || 'url(images/default.jpg)';
 }
+
 
 
 // Trigger jumpscare
