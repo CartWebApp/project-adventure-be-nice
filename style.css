@@ -90,7 +90,7 @@ body {
 #game {
   display: none;
   max-width: 100%;
-  top:80%;
+  top:75%;
   height: 20%;
   background: rgba(42, 42, 42, 0.8);
   padding: 1.5rem;
@@ -219,4 +219,39 @@ body {
   cursor: pointer;
   z-index: 5;
   margin-top: 10%;
+}
+
+/* Button to toggle visibility */
+#showChoicesButton {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+#showChoicesButton:hover {
+  background-color: black;
+}
+
+/* Container that holds the choices, initially hidden */
+#chosenOptionsContainer {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  position: absolute;
+}
+
+#chosenOptionsList {
+  list-style-type: none;
+  padding: 0;
+}
+
+#chosenOptionsList li {
+  margin: 5px 0;
+  font-size: 24px;
 }

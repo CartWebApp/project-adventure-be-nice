@@ -12,6 +12,17 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  
+<!-- Button to toggle the visibility of the chosen options -->
+<button id="showChoicesButton" onclick="toggleChoices()">Show Your Choices</button>
+
+<!-- The container for displaying chosen options, initially hidden -->
+<div id="chosenOptionsContainer" style="display: none;">
+  <h3>Your Choices:</h3>
+  <ul id="chosenOptionsList">
+    <!-- Choices will be displayed here -->
+  </ul>
+</div>
 
   <!-- Fullscreen Overlay -->
   <div id="fullscreenOverlay">
