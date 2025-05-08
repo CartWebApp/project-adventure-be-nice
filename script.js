@@ -197,6 +197,15 @@ const scenes = {
     ]
   },
 
+  evidence: {
+    text: "As you snoop around the station, Harry sneaks up behind you and offers to help search for clues.",
+    background: 'url(images/evid-room.png)',
+    options: [
+      { text: "Brush him off and ignore him.", next: "brush" },
+      { text: "Accept help from Harry and tell him what to find.", next: "hlead" }
+    ]
+  },
+
   brush: {
     text: "You are openly hostile toward Harry, questioning whether an android could truly understand the complexities of human emotions and justice.",
     background: 'url(images/in-police-dep.png)',
@@ -239,9 +248,89 @@ const scenes = {
     text: "Harry introduces Dexter to the leader of the rebellions. Dexter faces off against the mastermind behind the conspiracy, confronting his own beliefs about justice and morality.",
     background: 'url(images/in-police-dep.png)',
     options: [
-      { text: "Dexter chooses to fight for the rebellion, abandoning his role as a law enforcer and embracing his new belief in the cause of android liberation.", next: "." },
+      { text: "Dexter chooses to fight for the rebellion, abandoning his role as a law enforcer and embracing his new belief in the cause of android liberation.", next: "fightfr" },
       { text: "He confronts the mastermind and ultimately decides to hand them over to human authorities, choosing to uphold his sense of justice at great personal cost.", next: "handsover" },
       { text: "Dexter sides with neither faction, choosing to take the rebellion down in a way that avoids bloodshed while ensuring neither side gains the upper hand.", next: "backfire" }
+    ]
+  },
+
+  fightfr: {
+    text: "Dexter becomes a key ally in the new world, working to rebuild the system and ensure that androids are treated as equals. He finally finds a sense of purpose, no longer bound by the rigid laws that once defined him.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Dexter decides to become a leader in the new world, actively working to integrate androids into society and promote coexistence.", next: "gov" },
+      { text: "He chooses to remain a detective but works tirelessly to reform the legal system from within, seeking to guarantee equality without fully aligning with either side.", next: "remain" }, 
+      { text: "Dexter steps away from law enforcement altogether, becoming a mediator between humans and androids, forging a new, balanced future.", next: "awayl" }
+    ]
+  },
+  
+  gov: {
+    text: "He takes on a government role, becoming a key figure in shaping policies that guarantee equality for androids and humans alike.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Next", next: "robotmurder" }, 
+    ]
+  },
+
+  remain: {
+    text: "Dexter returns to his detective work, but his role has changed. He works to uphold justice in a fractured society, now helping to rebuild the law and order to ensure humans and androids can coexist, despite the growing tension between the two groups.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Dexter returns to the police force, trying to repair the broken system from the inside, but she finds herself constantly at odds with both human and android factions.", next: "know" }, 
+      { text: "He becomes a key figure in rebuilding society, advocating for android rights and creating new laws that ensure equality for all, but the struggle remains.", next: "know" }, 
+      { text: "Dexter leaves his old life behind and becomes an activist, risking everything to inspire change in a world still divided.", next: "awayl" }
+    ]
+  },
+
+  awayl: {
+    text: "Dexter confronts a former partner who has turned against the androids. He chooses to stop him, leaving behind his old role and embracing a new mission: to seek justice and equality for both humans and androids.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Dexter confronts his former partner and defeats him, but in doing so, he realizes that the cost of peace may be higher than he ever imagined.", next: "gov" }, 
+      { text: "Dexter chooses to try to reason with his former partner, believing that even he can be brought to see the truth and change his mind.", next: "gov " }, 
+      { text: "He makes the difficult decision to let his former partner win, leaving his role behind and becoming a symbol of the new world, knowing the ultimate battle may not be his to fight", next: "bye" }
+    ]
+  },
+
+  bye: {
+    text: "Dexter leaves the police force entirely and becomes a public voice for justice, using his story to inspire others to see beyond the binary divide between humans and androids.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Next", next: "robotmurder" },
+    ]
+  },
+
+  know: {
+    text: "He brings in the knowledge that true justice isn’t just about following the law but ensuring fairness for both humans and androids. He helps enforce new laws that protect android rights, ensuring that the hard-won peace is upheld. ",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Advocate for Equal Rights", next: "erights" },
+      { text: "Strengthen Enforcement", next: "strengthene" }, 
+      { text: "Personal Growth and Balance", next: "growth" }
+    ]
+  },
+
+  erights: {
+    text: "He helps shape the universal code of ethics for human-android interactions, and after years of campaigning, it’s passed. The world begins to embrace equality, and he stands hopeful, knowing this is just the beginning.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Next", next: "robotmurder" }, 
+    ]
+  },
+
+  strengthene: {
+    text: "He creates a task force within law enforcement to enforce android protection laws, investigate abuse, and ensure justice. As the team holds offenders accountable, public trust grows, and androids feel safer. His leadership cements his role in the fight for equality and justice.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Next", next: "robotmurder" }, 
+    ]
+  },
+
+  growth: {
+    text: "As he enforces the laws, he questions his own identity and what it truly means to be just in a world shared by humans and androids. The lines blur, and he struggles with whether true justice is possible when both sides see the world so differently. Seeking deeper answers, he realizes that true fairness may require a shift in empathy, not just laws.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Next", next: "robotmurder" }, 
     ]
   },
 
@@ -267,7 +356,7 @@ const scenes = {
     background: 'url(images/in-police-dep.png)',
     options: [
       { text: "Dexter secretly meets with the android rebellion’s leaders to try to understand their motivations and decide if they are right or wrong.", next: "intro" },
-      { text: "He plans to sabotage the rebellion, believing that if they succeed, it will lead to chaos and violence, destabilizing everything he holds dear.", next: "." },
+      { text: "He plans to sabotage the rebellion, believing that if they succeed, it will lead to chaos and violence, destabilizing everything he holds dear.", next: "sabo" },
       { text: "Dexter tries to make peace by meeting with both the rebellion and human officials, hoping to find common ground and prevent violence.", next: "peace" }
     ]
   },
@@ -288,7 +377,70 @@ const scenes = {
     ]
   },
 
+ sabo: {
+    text: "He meets up with the police department and discuss the plan to take control on androids again.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Challenge the plan publicly.", next: "challenge" }, 
+      { text: "Stay neutral, assess the situation", next: "neutral" }, 
+      { text: "Support the plan with conditions", next: "supportp" }, 
+    ]
+  },
 
+  challenge: {
+    text: "He stands up and directly challenges the proposal, arguing that reasserting control over androids could lead to a breakdown in the fragile peace between humans and androids.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Argue that the law should be focused on integration, not control, and propose creating a new system of checks and balances for androids in society.", next: "cplan" }, 
+      { text: "Remind the officers of the tragic consequences that happened last time androids were controlled and subjugated, urging them to learn from history.", next: "aplan" }, 
+      { text: "Suggest a more diplomatic approach by creating a task force with equal representation of both humans and androids to monitor the transition and ensure justice.", next: "suggb" }, 
+    ]
+  },
+
+  neutral: {
+    text: "He listens to both sides of the debate, taking in all the perspectives before offering his own ideas, trying to find a middle ground that ensures justice for both humans and androids.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Recommend introducing a trial period where androids are closely monitored, but with safeguards in place to prevent abuses.", next: "suggb" }, 
+      { text: "Propose a series of community outreach programs to gauge public sentiment on reasserting control, ensuring that the decision is made with human and android input.", next: "aplan" }, 
+      { text: "Urge the police department to focus on law enforcement and public safety rather than ideological battles, asking for a focus on pragmatic solutions.", next: "cplan" }, 
+    ]
+  },
+
+  supportp: {
+    text: "He agrees to the need for some form of control over androids but demands safeguards to ensure that android rights are respected. His voice carries weight, and his suggestions could shape the final decision.",
+    background: 'url(images/in-police-dep.png)',
+    options: [
+      { text: "Insist on strict laws that ensure androids have access to due process before any action is taken to restrict their freedoms.", next: "cplan" }, 
+      { text: "Advocate for a technological oversight committee to monitor android interactions, ensuring no abuse of power occurs.", next: "aplan" }, 
+      { text: "Propose that only androids who pose a clear, demonstrated threat to public safety should face any form of restriction, with the remaining androids being granted full autonomy. ", next: "suggb" }, 
+    ]
+  },
+
+  cplan: {
+    text: "He challenges the plan, creating a heated debate. Some officers are swayed, but others remain firm. The proposal is delayed, and tensions rise, leaving the future of human-android relations uncertain.",
+    background: 'url(images/living-room.png)',
+    options: [
+      { text: "Next", next: "robotmurder" },
+    ]
+  },
+
+  suggb: {
+    text: "He suggests a balanced solution, leading to the creation of community outreach programs. The police agree to delay drastic action, opting for dialogue and a more thoughtful approach to android rights.",
+    background: 'url(images/living-room.png)',
+    options: [
+      { text: "Next", next: "robotmurder" },
+    ]
+  },
+
+  
+  aplan: {
+    text: "He agrees to the plan with safeguards, creating an oversight committee to ensure fairness. The new guidelines allow androids to live freely, but under careful monitoring, preserving the peace—though fragile—for now.",
+    background: 'url(images/living-room.png)',
+    options: [
+      { text: "Next", next: "robotmurder" },
+    ]
+  },
 
   keepongoin: {
     text: "You continue walking but suddenly stops as you hear mysterious sounds coming from the building.",
@@ -324,15 +476,7 @@ const scenes = {
     ]
   },
 
-  evidence: {
-    text: "..",
-    background: 'url(images/evid-room.png)',
-    options: [
-      { text: "Go to the crime scene.", next: "crime" },
-      { text: "Visit the evidence room.", next: "evidence" },
-      { text: "Snoop around the station.", next: "scene" }
-    ]
-  },
+  
   investigate: {
     text: "You decided to go and investigate this abandoned building not knowing what it was. You see 3 entrances and can't decide which one to use to go in.",
     background: 'url(images/abandoned-building.png)',
