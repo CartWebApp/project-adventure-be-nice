@@ -522,6 +522,7 @@ anotherEnding: {
 
 
 function triggerJumpscare(backgroundImage) {
+  document.getElementById('gamePanel').style.display = 'none';
   const overlay = document.getElementById('jumpscareOverlay');
   const img = document.getElementById('jumpscareImage');
   const gameOverText = document.getElementById('gameOverText');

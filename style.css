@@ -86,7 +86,7 @@ body {
 }
 
 
-/* Game Container */
+/* Game Container
 #game {
   display: none;
   max-width: 100%;
@@ -97,7 +97,53 @@ body {
   box-shadow: 0 0 10px #000;
   position: relative;
   z-index: 1;
+} */
+
+/* Game Panel always at bottom */
+#gamePanel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: rgba(42, 42, 42, 0.9);
+  padding: 1rem;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.7);
+  z-index: 3;
+
+  /* Responsive height */
+  max-height: 40vh; /* Take max 40% of screen height */
+  overflow-y: auto; /* Scroll if text is too much */
 }
+
+/* Make story text inside look good */
+#story {
+  margin-bottom: 1rem;
+  font-family: "Special Elite", system-ui;
+  font-size: large;
+  line-height: 1.5;
+}
+
+/* Option buttons stay responsive */
+.option-button {
+  display: block;
+  width: 98%;
+  margin: 0.5rem 0;
+  padding: 0.75rem 1rem;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: "Special Elite", system-ui;
+  font-size: large;
+}
+
+.option-button:hover {
+  background: #666;
+}
+
 
 /* Story Text */
 #story {
@@ -150,7 +196,7 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 3rem;
-  z-index: 9999;
+  z-index: 999;
   display: flex;
   flex-direction: column;
 }
@@ -160,7 +206,6 @@ body {
   background-color: #CA0707;
   color: white;
   border: none;
-
   font-size: 2rem;
   cursor: pointer;
   border-radius: 10px;
