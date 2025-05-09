@@ -1,5 +1,7 @@
 * {
   font-family: "Amatic SC", sans-serif;
+  caret-color: transparent;
+  user-select: none;
 }
 
 body {
