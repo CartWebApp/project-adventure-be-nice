@@ -1,5 +1,8 @@
 // Flag to track if the intro video has been played
 let introVideoPlayed = false;
+// Array to keep track of chosen options
+let chosenOptions = [];
+
 
 // Enter fullscreen and play intro video
 function enterFullscreen() {
@@ -84,8 +87,10 @@ function startGame() {
   }, 2000); // Matches the fade duration (2 seconds)
 }
 
-// Run fullscreen check on page load
-window.addEventListener('load', checkFullscreenStatus);
+window.addEventListener('load', () => {
+  checkFullscreenStatus();
+  preloadAssets(); // Preload images and video on load
+});
 
 // ------------------ GAME LOGIC ------------------ //
 
@@ -591,14 +596,18 @@ function showScene(key) {
 
   storyEl.textContent = scene.text;
 
-  // Create the choices buttons for the new scene
   scene.options.forEach(option => {
     const btn = document.createElement('button');
     btn.textContent = option.text;
     btn.className = 'option-button';
-    btn.onclick = () => showScene(option.next);
+    btn.onclick = () => {
+      chosenOptions.push(option.text);
+      updateChoicesList(); // Live update the choices list!
+      showScene(option.next);
+    };    
     choicesEl.appendChild(btn);
   });
+  
 
   // Update the background for the new scene
   document.body.style.backgroundImage = scene.background || 'url(images/default.jpg)';
@@ -642,3 +651,51 @@ function triggerJumpscare(backgroundImage) {
 
   restartButton.onclick = () => window.location.reload();
    }
+
+   function toggleChoices() {
+    const container = document.getElementById('chosenOptionsContainer');
+    container.style.display = (container.style.display === 'none') ? 'block' : 'none';
+    
+    // Always update list when toggled
+    updateChoicesList();
+  }
+
+  function updateChoicesList() {
+    const list = document.getElementById('chosenOptionsList');
+    list.innerHTML = '';
+    chosenOptions.forEach((choice, index) => {
+      const li = document.createElement('li');
+      li.textContent = `${index + 1}. ${choice}`;
+      list.appendChild(li);
+    });
+  }
+  
+  function preloadAssets() {
+    // Preload all scene background images
+    Object.values(scenes).forEach(scene => {
+      if (scene.background) {
+        const img = new Image();
+        img.src = scene.background.replace(/^url\((['"])?(.*?)\1\)$/, '$2');
+      }
+    });
+  
+    // Preload starting video
+    const video = document.createElement('video');
+    video.src = 'Vids/game-start.mp4';
+    video.preload = 'auto';
+    video.load();
+  
+    // Preload jumpscare sound
+    const screamSound = new Audio('sound/jumpscare.mp3');
+    screamSound.preload = 'auto';
+    screamSound.load();
+  
+    // ✅ If you have more sounds, preload them here like this:
+    // const anotherSound = new Audio('sound/another.mp3');
+    // anotherSound.preload = 'auto';
+    // anotherSound.load();
+  }
+  
+  
+  
+  
